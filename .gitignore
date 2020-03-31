@@ -2,16 +2,16 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ogs/
-/[Mm]emoryCaptures/
+/VE-MiAGK-unity/[Ll]ibrary/
+/VE-MiAGK-unity/[Tt]emp/
+/VE-MiAGK-unity/[Oo]bj/
+/VE-MiAGK-unity/[Bb]uild/
+/VE-MiAGK-unity/[Bb]uilds/
+/VE-MiAGK-unity/[Ll]ogs/
+/VE-MiAGK-unity/[Mm]emoryCaptures/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
-!/[Aa]ssets/**/*.meta
+!/VE-MiAGK-unity/[Aa]ssets/**/*.meta
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*
