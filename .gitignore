@@ -2,13 +2,13 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
-/VE-MiAGK-unity/[Ll]ibrary/
-/VE-MiAGK-unity/[Tt]emp/
-/VE-MiAGK-unity/[Oo]bj/
-/VE-MiAGK-unity/[Bb]uild/
-/VE-MiAGK-unity/[Bb]uilds/
-/VE-MiAGK-unity/[Ll]ogs/
-/VE-MiAGK-unity/[Mm]emoryCaptures/
+/VE-MiAGK-unity/[Ll]ibrary/*
+/VE-MiAGK-unity/[Tt]emp/*
+/VE-MiAGK-unity/[Oo]bj/*
+/VE-MiAGK-unity/[Bb]uild/*
+/VE-MiAGK-unity/[Bb]uilds/*
+/VE-MiAGK-unity/[Ll]ogs/*
+/VE-MiAGK-unity/[Mm]emoryCaptures/*
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/VE-MiAGK-unity/[Aa]ssets/**/*.meta
