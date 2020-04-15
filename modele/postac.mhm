@@ -1,0 +1,20 @@
+# Written by MakeHuman 1.1.1
+version v1.1.1
+tags postac
+camera 0.0 0.0 0.0615384615385 0.581382510368 -0.268294298882 1.3
+modifier macrodetails-universal/Muscle 0.780000
+modifier macrodetails/African 0.070302
+modifier macrodetails-proportions/BodyProportions 0.522000
+modifier macrodetails/Gender 1.000000
+modifier macrodetails-height/Height 0.588000
+modifier breast/BreastSize 0.500000
+modifier macrodetails/Age 0.462000
+modifier breast/BreastFirmness 0.500000
+modifier macrodetails/Asian 0.379000
+modifier macrodetails/Caucasian 0.550698
+modifier macrodetails-universal/Weight 0.165000
+eyes HighPolyEyes 2c12f43b-1303-432c-b7ce-d78346baf2e6
+clothesHideFaces True
+skinMaterial skins/default.mhmat
+material HighPolyEyes 2c12f43b-1303-432c-b7ce-d78346baf2e6 eyes/materials/brown.mhmat
+subdivide False
