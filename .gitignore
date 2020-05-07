@@ -10,8 +10,17 @@
 /VE-MiAGK-unity/[Ll]ogs/*
 /VE-MiAGK-unity/[Mm]emoryCaptures/*
 
+/VE-MiAGK/VE-PAF/[Ll]ibrary/*
+/VE-MiAGK/VE-PAF/[Tt]emp/*
+/VE-MiAGK/VE-PAF/[Oo]bj/*
+/VE-MiAGK/VE-PAF/[Bb]uild/*
+/VE-MiAGK/VE-PAF/[Bb]uilds/*
+/VE-MiAGK/VE-PAF/[Ll]ogs/*
+/VE-MiAGK/VE-PAF/[Mm]emoryCaptures/*
+
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/VE-MiAGK-unity/[Aa]ssets/**/*.meta
+!/VE-PAF/[Aa]ssets/**/*.meta
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*
