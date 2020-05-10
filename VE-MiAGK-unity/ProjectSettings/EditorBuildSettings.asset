@@ -8,5 +8,3 @@ EditorBuildSettings:
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: 756e57c0f54ee7e4583e3ec89ba066d4,
       type: 2}
-    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: fc5fe11e82bab5f4fa6e0752f945641b,
-      type: 2}
