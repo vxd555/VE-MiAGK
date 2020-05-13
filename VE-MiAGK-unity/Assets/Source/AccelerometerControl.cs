@@ -10,6 +10,8 @@ public class AccelerometerControl: MonoBehaviour
 	public UnityEvent onStepLeft = new UnityEvent();
 	public UnityEvent onJump = new UnityEvent();
 	public UnityEvent onDodge = new UnityEvent();
+	public UnityEvent onOutJump = new UnityEvent();
+	public UnityEvent onOutDodge = new UnityEvent();
 
 	public Text accText = null;
 
@@ -17,6 +19,9 @@ public class AccelerometerControl: MonoBehaviour
     {
 		if(Input.acceleration.z > 0.6f) onJump.Invoke();
 		else if(Input.acceleration.z < -0.6f) onDodge.Invoke();
+		else if(Input.acceleration.z < 0.15f) onOutJump.Invoke();
+		else if(Input.acceleration.z > -0.15f) onOutDodge.Invoke();
+
 		if(Input.acceleration.x < -0.15f) onStepLeft.Invoke();
 		else if(Input.acceleration.x > 0.15f) onStepRight.Invoke();
 
