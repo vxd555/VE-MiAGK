@@ -9,7 +9,7 @@ public class Path : MonoBehaviour
     public List<PathElement> path = new List<PathElement>();
 
 
-    void Start()
+	void Start()
     {
         
     }

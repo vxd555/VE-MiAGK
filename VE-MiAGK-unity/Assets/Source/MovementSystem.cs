@@ -1,19 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Cinemachine;
 
-public class MoveControl : MonoBehaviour
+public class MovementSystem : MonoBehaviour
 {
 	public GyroControl gyroControl;
 	public AccelerometerControl accelerometerControl;
-	public Path path;
-
+	public CinemachineDollyCart cinemachine;
 	
-	public int currentPath = 0;
-
 	bool end = false;
+
 	[SerializeField]
 	bool isJump = false; //czy masz podniesioną głowę czy nie
 	bool isFly = false; //czy jesteś w powietrzu po skoku
@@ -29,14 +27,17 @@ public class MoveControl : MonoBehaviour
 	public float forceMax = 0.6f; //siła nadawana przy
 	public float forceJump = 0.3f; //siła nadawana przy
 
+	[Header("Fields")]
+	public List<CinemachineSmoothPath> fall = new List<CinemachineSmoothPath>();
+	public List<Transform> dodge = new List<Transform>();
+
 	[Header("Information")]
 	public Image            jumpIndicator;
 	public Image            dodgeIndicator;
 	public Text info;
 
-
 	void Start()
-    {
+	{
 		accelerometerControl.onJump.AddListener(Jump);
 		accelerometerControl.onDodge.AddListener(Dodge);
 		accelerometerControl.onOutJump.AddListener(JumpOut);
@@ -45,30 +46,17 @@ public class MoveControl : MonoBehaviour
 		accelerometerControl.onStepRight.AddListener(StepRight);
 	}
 
+	// Update is called once per frame
 	void Update()
-	{
+    {
 		if(end) return;
 
-		if(currentPath >= path.path.Count - 1) //zakończneie gry na ostatnim fragmencie
+		if(CheckJump())
 		{
-			End();
-			return;
+			StartCoroutine(JumpTime());
 		}
+		cinemachine.m_Speed = forceCurrent;
 
-		//Debug.Log(currentPath + " " + transform.position);
-		if(Vector3.Distance(transform.position, path.path[currentPath + 1].transform.position) < 0.9f) //przesówanie się miedzy fragmentami drogi
-		{
-			currentPath += 1;
-			if(path.path[currentPath + 1].pathType == PathType.jump) //jeśli jesteś przed przepaścią sprawdza czy skoczyłeś
-			{
-				StartCoroutine(JumpTime());
-			}
-		}
-		//wyliczenie wektora kierunku i przemieszczenie postaci
-		Vector3 direction = (path.path[currentPath + 1].transform.position - path.path[currentPath].transform.position).normalized;
-		transform.position += direction * forceCurrent * Time.deltaTime;
-
-		//debug na kompa
 		if(Input.GetKeyDown(KeyCode.RightArrow)) StepRight();
 		if(Input.GetKeyDown(KeyCode.LeftArrow)) StepLeft();
 		if(Input.GetKeyDown(KeyCode.UpArrow)) Jump();
@@ -76,7 +64,7 @@ public class MoveControl : MonoBehaviour
 	}
 
 	void FixedUpdate()
-    {
+	{
 		if(end) return;
 
 		if(isFly || isSlide) forceCurrent = forceJump;
@@ -90,12 +78,30 @@ public class MoveControl : MonoBehaviour
 	void End() //zakończenie gry
 	{
 		end = true;
+		cinemachine.m_Speed = 0;
 		info.text = "end game";
+	}
+
+	bool CheckJump()
+	{
+		foreach(var i in fall)
+		{
+			if(Vector3.Distance(transform.position, i.transform.position) < 0.9f) return true;
+		}
+		return false;
+	}
+	bool CheckDodge()
+	{
+		foreach(var i in dodge)
+		{
+			if(Vector3.Distance(transform.position, i.transform.position) < 0.9f) return true;
+		}
+		return false;
 	}
 
 	void Jump() //rozpoczęcie skoku
 	{
-		if(path.path[currentPath + 1].pathType != PathType.jump) return;
+		if(CheckJump()) return;
 		if(isJump || isDodge) return;
 		isJump = true;
 		isFly = true;
@@ -110,7 +116,7 @@ public class MoveControl : MonoBehaviour
 
 	void Dodge() //rozpoczęcie wślizgu
 	{
-		if(path.path[currentPath + 1].pathType != PathType.dodge) return;
+		if(CheckDodge()) return;
 		if(isJump || isDodge) return;
 		isDodge = true;
 		isSlide = true;
@@ -158,12 +164,15 @@ public class MoveControl : MonoBehaviour
 		else
 		{
 			End();
+			cinemachine.m_Path = fall[0];
+			cinemachine.m_Position = 0f;
+			cinemachine.m_Speed = forceJump;
 		}
 	}
 
 	IEnumerator EndFlyTime()
 	{
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(2f);
 		isFly = false;
 	}
 }
