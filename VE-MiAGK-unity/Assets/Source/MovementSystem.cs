@@ -1,23 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using Cinemachine;
 
 public class MovementSystem : MonoBehaviour
 {
+	public UnityEvent onEndGame = new UnityEvent();
 	public GyroControl gyroControl;
 	public AccelerometerControl accelerometerControl;
 	public CinemachineDollyCart cinemachine;
-	
-	bool end = false;
+	public Rigidbody rigidbody = null;
 
-	[SerializeField]
+	bool end = false;
 	bool isJump = false; //czy masz podniesioną głowę czy nie
 	bool isFly = false; //czy jesteś w powietrzu po skoku
 	bool isDodge = false; //czy masz obniżoną głowę
 	bool isSlide = false; //czy jesteś w ślizgu po uniku
-	int step = -1;
+	int	step = -1;
+
+	
 
 	//parametry przemieszczania gracza
 	[Header("movement")]
@@ -28,13 +31,13 @@ public class MovementSystem : MonoBehaviour
 	public float forceJump = 0.3f; //siła nadawana przy
 
 	[Header("Fields")]
-	public List<CinemachineSmoothPath> fall = new List<CinemachineSmoothPath>();
-	public List<Transform> dodge = new List<Transform>();
+	public List<Transform>		fall = new List<Transform>();
+	public List<Transform>		dodge = new List<Transform>();
 
 	[Header("Information")]
 	public Image            jumpIndicator;
 	public Image            dodgeIndicator;
-	public Text info;
+	public Text				info;
 
 	void Start()
 	{
@@ -96,7 +99,7 @@ public class MovementSystem : MonoBehaviour
 		{
 			if(Vector3.Distance(transform.position, i.transform.position) < 0.9f) return true;
 		}
-		return false;
+		return true;
 	}
 
 	void Jump() //rozpoczęcie skoku
@@ -164,9 +167,10 @@ public class MovementSystem : MonoBehaviour
 		else
 		{
 			End();
-			cinemachine.m_Path = fall[0];
-			cinemachine.m_Position = 0f;
-			cinemachine.m_Speed = forceJump;
+			onEndGame.Invoke();
+			cinemachine.m_Path = null;
+			rigidbody.useGravity = true;
+
 		}
 	}
 

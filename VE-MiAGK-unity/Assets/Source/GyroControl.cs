@@ -7,7 +7,7 @@ public class GyroControl : MonoBehaviour
 	private bool gyroEnabled;
 	private Gyroscope gyro;
 
-	private Transform cameraContainer;
+	public Transform cameraContainer;
 	private Quaternion rot;
 
     void Start()
