@@ -14,12 +14,13 @@ public class MovementSystem : MonoBehaviour
 	public Rigidbody rigidbody = null;
 
 	bool end = false;
+	bool jumpTime = false;
 	bool isJump = false; //czy masz podniesioną głowę czy nie
 	bool isFly = false; //czy jesteś w powietrzu po skoku
+	bool dodgeTime = false;
 	bool isDodge = false; //czy masz obniżoną głowę
 	bool isSlide = false; //czy jesteś w ślizgu po uniku
 	int	step = -1;
-
 	
 
 	//parametry przemieszczania gracza
@@ -34,10 +35,17 @@ public class MovementSystem : MonoBehaviour
 	public List<Transform>		fall = new List<Transform>();
 	public List<Transform>		dodge = new List<Transform>();
 
+	[Header("Sounds")]
+	public AudioSource          snd = null;
+	public List<AudioClip>      stepsSound = new List<AudioClip>();
+	public AudioClip            jumpSound = null;
+	public AudioClip            dodgeSound = null;
+	public AudioClip            deadSound = null;
+
 	[Header("Information")]
-	public Image            jumpIndicator;
-	public Image            dodgeIndicator;
-	public Text				info;
+	public GameObject           jumpIndicator;
+	public GameObject           dodgeIndicator;
+	public Text					info;
 
 	void Start()
 	{
@@ -57,6 +65,10 @@ public class MovementSystem : MonoBehaviour
 		if(CheckJump())
 		{
 			StartCoroutine(JumpTime());
+		}
+		if(CheckDodge())
+		{
+			StartCoroutine(DodgeTime());
 		}
 		cinemachine.m_Speed = forceCurrent;
 
@@ -80,7 +92,9 @@ public class MovementSystem : MonoBehaviour
 
 	void End() //zakończenie gry
 	{
+		if(end) return;
 		end = true;
+		snd.PlayOneShot(deadSound);
 		cinemachine.m_Speed = 0;
 		info.text = "end game";
 	}
@@ -99,15 +113,16 @@ public class MovementSystem : MonoBehaviour
 		{
 			if(Vector3.Distance(transform.position, i.transform.position) < 0.9f) return true;
 		}
-		return true;
+		return false;
 	}
 
 	void Jump() //rozpoczęcie skoku
 	{
-		if(CheckJump()) return;
+		if(!jumpTime) return;
 		if(isJump || isDodge) return;
 		isJump = true;
 		isFly = true;
+		snd.PlayOneShot(jumpSound);
 		info.text = "jump";
 	}
 	void JumpOut()
@@ -119,10 +134,11 @@ public class MovementSystem : MonoBehaviour
 
 	void Dodge() //rozpoczęcie wślizgu
 	{
-		if(CheckDodge()) return;
+		if(!dodgeTime) return;
 		if(isJump || isDodge) return;
 		isDodge = true;
 		isSlide = true;
+		snd.PlayOneShot(dodgeSound);
 		info.text = "dodge";
 	}
 
@@ -152,13 +168,16 @@ public class MovementSystem : MonoBehaviour
 	void Move()
 	{
 		forceCurrent = Mathf.Clamp(forceCurrent + forceAdd, 0f, forceMax);
+		snd.PlayOneShot(stepsSound[Random.Range(0, stepsSound.Count)]);
 	}
 
 	IEnumerator JumpTime()
 	{
-		jumpIndicator.gameObject.SetActive(true);
-		yield return new WaitForSeconds(0.5f);
-		jumpIndicator.gameObject.SetActive(false);
+		jumpTime = true;
+		jumpIndicator.SetActive(true);
+		yield return new WaitForSeconds(0.8f);
+		jumpIndicator.SetActive(false);
+		jumpTime = false;
 
 		if(isFly)
 		{
@@ -178,5 +197,35 @@ public class MovementSystem : MonoBehaviour
 	{
 		yield return new WaitForSeconds(2f);
 		isFly = false;
+	}
+
+	IEnumerator DodgeTime()
+	{
+		dodgeTime = true;
+		dodgeIndicator.SetActive(true);
+		yield return new WaitForSeconds(0.8f);
+		dodgeIndicator.SetActive(false);
+		dodgeTime = false;
+
+		if(isSlide)
+		{
+			StartCoroutine(EndSlideTime());
+		}
+		else
+		{
+			End();
+			onEndGame.Invoke();
+			cinemachine.m_Path = null;
+			cinemachine.enabled = false;
+			rigidbody.useGravity = true;
+			rigidbody.AddForce(-Vector3.left * 50);
+			//rigidbody.MovePosition(Vector3.left * 10);
+		}
+	}
+
+	IEnumerator EndSlideTime()
+	{
+		yield return new WaitForSeconds(2f);
+		isSlide = false;
 	}
 }
