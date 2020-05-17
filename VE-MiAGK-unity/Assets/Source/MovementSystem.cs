@@ -15,11 +15,11 @@ public class MovementSystem : MonoBehaviour
 
 	bool end = false;
 	bool jumpTime = false;
-	bool isJump = false; //czy masz podniesioną głowę czy nie
-	bool isFly = false; //czy jesteś w powietrzu po skoku
+	bool isJumping = false; //czy masz podniesioną głowę czy nie
+	bool isInAir = false; //czy jesteś w powietrzu po skoku
 	bool dodgeTime = false;
-	bool isDodge = false; //czy masz obniżoną głowę
-	bool isSlide = false; //czy jesteś w ślizgu po uniku
+	bool isDodging = false; //czy masz obniżoną głowę
+	bool isSliding = false; //czy jesteś w ślizgu po uniku
 	int	step = -1;
 	
 
@@ -82,7 +82,7 @@ public class MovementSystem : MonoBehaviour
 	{
 		if(end) return;
 
-		if(isFly || isSlide) forceCurrent = forceJump;
+		if(isInAir || isSliding) forceCurrent = forceJump;
 		else
 		{
 			forceCurrent -= forceFalling;
@@ -119,33 +119,33 @@ public class MovementSystem : MonoBehaviour
 	void Jump() //rozpoczęcie skoku
 	{
 		if(!jumpTime) return;
-		if(isJump || isDodge) return;
-		isJump = true;
-		isFly = true;
+		if(isJumping || isDodging) return;
+		isJumping = true;
+		isInAir = true;
 		snd.PlayOneShot(jumpSound);
 		info.text = "jump";
 	}
 	void JumpOut()
 	{
-		if(!isJump) return;
-		isJump = false;
+		if(!isJumping) return;
+		isJumping = false;
 		info.text = "out jump";
 	}
 
 	void Dodge() //rozpoczęcie wślizgu
 	{
 		if(!dodgeTime) return;
-		if(isJump || isDodge) return;
-		isDodge = true;
-		isSlide = true;
+		if(isJumping || isDodging) return;
+		isDodging = true;
+		isSliding = true;
 		snd.PlayOneShot(dodgeSound);
 		info.text = "dodge";
 	}
 
 	void DodgeOut()
 	{
-		if(!isDodge) return;
-		isDodge = false;
+		if(!isDodging) return;
+		isDodging = false;
 		info.text = "out dodge";
 	}
 
@@ -179,7 +179,7 @@ public class MovementSystem : MonoBehaviour
 		jumpIndicator.SetActive(false);
 		jumpTime = false;
 
-		if(isFly)
+		if(isInAir)
 		{
 			StartCoroutine(EndFlyTime());
 		}
@@ -195,8 +195,11 @@ public class MovementSystem : MonoBehaviour
 
 	IEnumerator EndFlyTime()
 	{
-		yield return new WaitForSeconds(2f);
-		isFly = false;
+		yield return new WaitForSeconds(1f);
+		isInAir = false;
+#if UNITY_EDITOR
+		JumpOut();
+#endif
 	}
 
 	IEnumerator DodgeTime()
@@ -207,7 +210,7 @@ public class MovementSystem : MonoBehaviour
 		dodgeIndicator.SetActive(false);
 		dodgeTime = false;
 
-		if(isSlide)
+		if(isSliding)
 		{
 			StartCoroutine(EndSlideTime());
 		}
@@ -225,7 +228,11 @@ public class MovementSystem : MonoBehaviour
 
 	IEnumerator EndSlideTime()
 	{
-		yield return new WaitForSeconds(2f);
-		isSlide = false;
+		yield return new WaitForSeconds(1f);
+		isSliding = false;
+
+#if UNITY_EDITOR
+		DodgeOut();
+#endif
 	}
 }
