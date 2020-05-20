@@ -206,7 +206,7 @@ public class MovementSystem : MonoBehaviour
 	{
 		dodgeTime = true;
 		dodgeIndicator.SetActive(true);
-		yield return new WaitForSeconds(0.8f);
+		yield return new WaitForSeconds(0.9f);
 		dodgeIndicator.SetActive(false);
 		dodgeTime = false;
 
