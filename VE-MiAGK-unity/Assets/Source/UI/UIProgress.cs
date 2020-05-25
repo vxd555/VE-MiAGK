@@ -1,6 +1,7 @@
 ﻿using Cinemachine;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class UIProgress : MonoBehaviour
 {
@@ -8,9 +9,12 @@ public class UIProgress : MonoBehaviour
 	private float fullDistance;
 	private int currentPercent;
 	private TextMeshProUGUI progressText;
+	public TextMeshProUGUI parentText;
 
 	public CinemachineSmoothPath path;
 	public CinemachineDollyCart cart;
+	public UnityEvent finished = new UnityEvent();
+	private bool invoked = false;
 
 	private void Start()
 	{
@@ -24,12 +28,24 @@ public class UIProgress : MonoBehaviour
 	{
 		currentDistance = cart.m_Position;
 
-		int percent = (int)((currentDistance / fullDistance) * 100);
+		int percent = Mathf.CeilToInt((currentDistance / fullDistance) * 100);
 
 		if (percent > currentPercent)
 		{
 			currentPercent = percent;
 			progressText.text = $"{percent}%";
 		}
+
+		if (percent >= 3 && !invoked)
+		{
+			finished.Invoke();
+			invoked = true;
+		}
+	}
+
+	public void FadeOut(float fadeOutTime)
+	{
+		progressText.CrossFadeAlpha(0f, fadeOutTime, true);
+		parentText.CrossFadeAlpha(0f, fadeOutTime, true);
 	}
 }

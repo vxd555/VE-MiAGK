@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44635284, g: 0.49616158, b: 0.5746803, a: 1}
+  m_IndirectSpecularColor: {r: 0.44635332, g: 0.49616212, b: 0.57468104, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -422,6 +422,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 763d98ae9e5277048b21efaa18600e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentText: {fileID: 546441383}
+  finishScale: 4
+  finishFadeOutTime: 1
+  finishPosition: {x: 640, y: 360}
 --- !u!114 &145197825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5466,7 +5470,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -198, y: -99}
+  m_AnchoredPosition: {x: -200, y: -100}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &546441383
@@ -6495,6 +6499,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeOutTime: 0.6
   fadeInTime: 0.2
+  totalTime: 1
 --- !u!114 &842694932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7660,8 +7665,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 337d29ad3317a0948ad9ac83d4bf4de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentText: {fileID: 1488306164}
   path: {fileID: 67863269}
   cart: {fileID: 1588347879}
+  finished:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 145197824}
+        m_MethodName: ScaleToCenter
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1038916590}
+        m_MethodName: FadeOut
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 145197824}
+        m_MethodName: ToggleTime
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &1062399111 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 526265236553799105, guid: 365bc3ed278a2004eb9e59b19b2efb14,
@@ -13644,6 +13686,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeOutTime: 0.6
   fadeInTime: 0.2
+  totalTime: 1
 --- !u!114 &1919715045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14584,6 +14627,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3737198158035952379, guid: 53d34f8b1dd12ae45a40df325acdc374,
         type: 3}
+      propertyPath: onEndGame.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737198158035952379, guid: 53d34f8b1dd12ae45a40df325acdc374,
+        type: 3}
       propertyPath: fall.Array.data[0]
       value: 
       objectReference: {fileID: 1062399111}
@@ -14732,6 +14780,36 @@ PrefabInstance:
       propertyPath: info
       value: 
       objectReference: {fileID: 781353134}
+    - target: {fileID: 3737198158035952379, guid: 53d34f8b1dd12ae45a40df325acdc374,
+        type: 3}
+      propertyPath: onEndGame.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737198158035952379, guid: 53d34f8b1dd12ae45a40df325acdc374,
+        type: 3}
+      propertyPath: onEndGame.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737198158035952379, guid: 53d34f8b1dd12ae45a40df325acdc374,
+        type: 3}
+      propertyPath: onEndGame.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 145197824}
+    - target: {fileID: 3737198158035952379, guid: 53d34f8b1dd12ae45a40df325acdc374,
+        type: 3}
+      propertyPath: onEndGame.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToggleTime
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737198158035952379, guid: 53d34f8b1dd12ae45a40df325acdc374,
+        type: 3}
+      propertyPath: onEndGame.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3737198158035952379, guid: 53d34f8b1dd12ae45a40df325acdc374,
+        type: 3}
+      propertyPath: timer
+      value: 
+      objectReference: {fileID: 145197824}
     - target: {fileID: 3737198159228047050, guid: 53d34f8b1dd12ae45a40df325acdc374,
         type: 3}
       propertyPath: m_ClearFlags

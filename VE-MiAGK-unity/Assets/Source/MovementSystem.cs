@@ -12,6 +12,7 @@ public class MovementSystem : MonoBehaviour
 	public AccelerometerControl accelerometerControl;
 	public CinemachineDollyCart cinemachine;
 	public Rigidbody rigidbody = null;
+	public UITimer timer;
 
 	bool end = false;
 	bool jumpTime = false;
@@ -168,6 +169,7 @@ public class MovementSystem : MonoBehaviour
 	void Move()
 	{
 		forceCurrent = Mathf.Clamp(forceCurrent + forceAdd, 0f, forceMax);
+		timer.ToggleTime(true);
 		snd.PlayOneShot(stepsSound[Random.Range(0, stepsSound.Count)]);
 	}
 
