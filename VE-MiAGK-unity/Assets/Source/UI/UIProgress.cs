@@ -36,7 +36,7 @@ public class UIProgress : MonoBehaviour
 			progressText.text = $"{percent}%";
 		}
 
-		if (percent >= 3 && !invoked)
+		if (percent >= 100 && !invoked)
 		{
 			finished.Invoke();
 			invoked = true;
