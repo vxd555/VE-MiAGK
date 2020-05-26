@@ -2,7 +2,6 @@
 {
     Properties
     {
-		_MainTex("Texture", 2D) = "white" {}
 		WeatherMap("Weather map", 2D) = "" {}
 		LowFreqNoiseTexture("LowFreqNoiseTexture", 3D) = "" {}
 		HighFreqNoiseTexture("HighFreqNoiseTexture", 3D) = "" {}
@@ -49,9 +48,6 @@
 				float2 TextureCoordinate : TEXCOORD0;
 				float3 WorldPosition : TEXCOORD1;
 			};
-
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
 
 			sampler2D WeatherMap;
 			sampler3D LowFreqNoiseTexture;
