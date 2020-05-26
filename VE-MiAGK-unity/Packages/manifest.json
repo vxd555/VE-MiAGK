@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.oddworm.texture3datlasimportpipeline": "https://github.com/pschraut/UnityTexture3DAtlasImportPipeline.git#1.0.0",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",
     "com.unity.ads": "2.0.8",
@@ -48,5 +49,11 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
+  },
+  "lock": {
+    "com.oddworm.texture3datlasimportpipeline": {
+      "revision": "1.0.0",
+      "hash": "303d6ab13a7555b0edccd215d1bb6ea263c98441"
+    }
   }
 }
