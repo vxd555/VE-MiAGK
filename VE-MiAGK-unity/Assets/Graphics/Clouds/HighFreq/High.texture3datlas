@@ -1,0 +1,2 @@
+﻿This file represents a Texture3D asset for Unity.
+You need the 'Texture3D Atlas Import Pipeline' package available at https://github.com/pschraut/UnityTexture3DAtlasImportPipeline to properly import this file in Unity.
