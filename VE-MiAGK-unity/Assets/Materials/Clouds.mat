@@ -19,6 +19,20 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - HighFreqNoiseTexture:
+        m_Texture: {fileID: 9083883318935156705, guid: a11e0bd26227db24cbb69e19283e74f1,
+          type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - LowFreqNoiseTexture:
+        m_Texture: {fileID: 9083883318935156705, guid: ddbaeb3bb86550c429246c0dd051241c,
+          type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - WeatherMap:
+        m_Texture: {fileID: 2800000, guid: bc0c5ea135033e444b11700cda79d90e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -69,6 +83,19 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
+    - _ambient: 1.98
+    - _fog: 7.97
+    - attenuation: 50
+    - attenuation2: 15.8
+    - coverage: 0.5
+    - density: 1.97
+    - eccentrisy: 0.98
+    - eccentrisy2: 0.3
+    - phaseInfluence: 0.95
+    - phaseInfluence2: 0.9
+    - sunHeight: 0.5
+    - sunIntensity: 100
+    - time: 0
     m_Colors:
     - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
