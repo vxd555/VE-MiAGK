@@ -208,10 +208,10 @@
 				return crossRaySphereOut(rayStart, rayDirection, sphereRadius, tmpPoint, result);
 			}
 
-			float sampleCloudDensity(float3 position, bool simple = false)
+			float sampleCloudDensity(float3 position, bool simple = false, float lod = 1.0)
 			{
 				float3 weatherPosition = position;
-				position.xz += float2(0.2f, 0.2f) * time;
+				position.xz += float2(0.2f, 0.2f) * (time + _Time.w);
 
 				float4 weather = tex2Dlod(WeatherMap, float4(weatherPosition.xz / 4096.0f + float2(0.2, 0.1), 0, 0));
 				float wCoverageLow = weather.r;
@@ -229,13 +229,13 @@
 				DensityAlt *= height * clamp(remap(height, 0.9, 1, 1, 0), 0, 1);
 				DensityAlt *= wDensity * 2 * density;
 
-				float ShapeNoise = tex3Dlod(LowFreqNoiseTexture, float4(position / 84.0f, 0)).x;
+				float ShapeNoise = tex3Dlod(LowFreqNoiseTexture, float4(position / 84.0f, lod)).x;
 				ShapeNoise = clamp(remap(ShapeNoise * ShapeAlt, 1 - coverage * wCoverage, 1, 0, 1), 0, 1) * DensityAlt;
 
 				float density;
 				if (!simple)
 				{
-					float DensityNoise = tex3Dlod(HighFreqNoiseTexture, float4(position / 10.8f, 0)).x;
+					float DensityNoise = tex3Dlod(HighFreqNoiseTexture, float4(position / 10.8f, lod)).x;
 					DensityNoise = 0.35 * exp(-coverage * 0.75) * lerp(DensityNoise, 1 - DensityNoise, clamp(height * 5, 0, 1));
 
 					density = clamp(remap(ShapeNoise, DensityNoise, 1, 0, 1), 0, 1) * DensityAlt;
@@ -354,8 +354,8 @@
 				float3 position;
 				crossRaySphereOutFar(rayOrigin, viewDir, cloudMin, position);
 
-				float avrStep = (cloudMax - cloudMin) / 64.0; // / 64.0
-				float steps = min(1 / avrStep * distance(rayOrigin, position), 128.0); // 192
+				float avrStep = (cloudMax - cloudMin) / 48.0; // / 64.0
+				float steps = min(1 / avrStep * distance(rayOrigin, position), 64.0); // 192
 
 				float3 color = float3(0.0, 0.0, 0.0);
 				float transmittance = 1.0;
@@ -447,9 +447,10 @@
 				);
 
 				//float4 color = float4(skyColor, 1.0);
-				float4 color = marchingOpt(viewDirection, sunDirection, float3(0.0, 6400.0, 0.0), sunColor, float3(skyColor.r, skyColor.g, skyColor.b));
+				float4 color = marchingOpt(viewDirection, sunDirection, float3(0.0, 6400.0, 0.0), sunColor, float3(skyColor.r, skyColor.g * 1.2, skyColor.b * 1.3));
 
-				return pow(color / (1 + color), float(1.0 / 2.2));
+				//return pow(color / (1 + color), float(1.0 / 2.2));
+				return color / (1 + color);
 			}
             ENDCG
         }
