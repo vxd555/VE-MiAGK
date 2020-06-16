@@ -371,7 +371,7 @@
 
 						if (density > 0)
 						{
-							float secRayDensity = sampleCloudDensityRay(position, sunDir);
+							float secRayDensity = sampleCloudDensityCone(position, sunDir);
 
 							float cosTheta = max(0.0, dot(viewDir, sunDir));
 
